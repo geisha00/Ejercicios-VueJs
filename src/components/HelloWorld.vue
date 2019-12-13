@@ -1,58 +1,90 @@
 <template>
-  <div class="hello">
+  <div class="q-gutter-md row">
     <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+     <p>
+      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>
+     </p>
+
+    <div class="section1">
+      <li v-for="tarea in tareasPorAntiguedad" v-bind:key="tarea.id">
+         {{tarea.nombre}}
+       </li>
+    </div>
+    
+    <form v-on:submit.prevent="agregarTarea">
+        
+        <input type="text" placeholder="introduce tu tarea" v-model="nuevaTarea"/>
+        <input type="button" value="enviar otras tareas" />
+        <!-- <button @click="eliminarObjetosRepetidos">eliminar colores repetidos</button> -->
+     
+    </form>
+    <div id="example-1">
+    <button v-on:click="counter += 1">Add 1</button>
+     <p>Se ha hecho clic en el botón de arriba {{ counter }} veces.</p>
+     </div>
+     <br><br><br><br>
+    {{$data}}
+    </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: "HelloWorld",
   props: {
     msg: String
-  }
-}
+  },
+
+  data: () => ({
+    counter:0,
+    nuevaTarea: "",
+    tareas: [
+       { nombre: "hacer la compra",
+        prioridad: "alta",
+        antiguedad:1000
+        },
+       { nombre: "hacer los deberes",
+        prioridad: "baja",
+         antiguedad:600
+         },
+       { nombre: "hacer la maqueta",
+        prioridad: "alta",
+         antiguedad:300 
+         },
+     ],
+    
+  }),
+  methods: {
+    agregarTarea() {
+      this.otrasTareas.unshift({
+      nombre:this.nuevaTarea,
+      prioridad:false,
+      antiguedad:0,
+      });
+      this.nuevaTarea = "";
+    },
+
+    //  eliminarObjetosRepetidos(){ 
+    //  this.colores.filter((item,index)=>this.colores.indexOf(item)===index);
+    //  }
+  },
+  computed:{
+  tareasConPrioridad(){
+    return this.tareas.filter((tarea)=>
+      tarea.prioridad);
+      },
+
+    tareasPorAntiguedad(){
+     return this.tareas.slice().sort((a,b)=>b.antiguedad - a.antiguedad);
+       }
+
+  },
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+.section2{
+  padding: 20px;
+
+   }
+
 </style>
